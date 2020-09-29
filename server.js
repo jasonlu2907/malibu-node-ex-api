@@ -14,7 +14,22 @@ app.use(express.json());
 // allowing below URL to access these APIs end-points
 // you can replace this URL(http://localhost:8100) with your
 // application URL from where you are calling these APIs
-app.use(cors({origin: 'http://localhost:3000'}));
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    preflightContinue: true,
+    methods: "GET, PUT, POST, DELETE",
+    credentials: true
+  })
+);
+
+// FIXING CORS PROBLEMS Access to XMLHttpRequest at 'http://localhost:3000/items' 
+//from origin 'http://localhost:4200' has been blocked by CORS policy: The 'Access-Control
+//-Allow-Origin' header has a value 'http://localhost:3000' that is not equal to the supplied origin.
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 
 /* this '/items' URL will have two end-points:
 → localhost:3000/items/ (this returns array of objects)
