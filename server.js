@@ -42,7 +42,21 @@ app.use("/", function (req, res) {
   res.send("malibu-node-ex-api works :-)");
 });
 
+/*
 const server = http.createServer(app);
 const port = 3000;
 server.listen(port);
 console.debug("Server listening on port " + port);
+*/
+
+/**
+ * Code của bố đây con trai, heroku không tự động bind cái port của mình vô, chứ mình k dc chọn chọn cổng
+ * ở trên m cho cổng 3000 mà còn là const, vãi lz luôn
+ * app.set("port", process.env.PORT || 5000);
+ * process.env.PORT <- cấu hình port cho heroku, k biết port nào nhưng heroku sẽ tự assign
+ * || 5000 là port ở dưới localhost
+ */
+app.set("port", process.env.PORT || 5000);
+app.listen(app.get("port"), function () {
+  console.log(`Server is running at ${app.get("port")}`);
+});
